@@ -9,6 +9,10 @@
 #ifndef magic_foundation_h
 #define magic_foundation_h
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // MARK: - Enumerations
 
 #include "magic_array_item_distribution.h"
@@ -68,6 +72,9 @@ typedef struct SYSTEM SYSTEM;
 
 #include "execute_result.h"
 
+#include "buffer_reader.h"
+#include "buffer_writer.h"
+
 #include "vector2f.h"
 #include "vector3f.h"
 #include "vector4f.h"
@@ -119,5 +126,9 @@ typedef struct SYSTEM SYSTEM;
 #include "timing_interface.h"
 #include "update_time_info.h"
 #include "system_interface.h"
+
+#ifdef __cplusplus
+} // extern "C"
+#endif
 
 #endif /* magic_foundation_h */

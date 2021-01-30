@@ -25,7 +25,7 @@ static inline vector3f vector3fMul(vector3f x, vector3f y) { return x * y; }
 static inline vector3f vector3fDiv(vector3f x, vector3f y) { return x / y; }
 static inline vector3f vector3fNormalize(vector3f x) { return simd_normalize((x)); }
 static inline vector3f vector3fCross(vector3f x, vector3f y) { return simd_cross(x, y); }
-float vector3fDot(vector3f x, vector3f y) { return simd_dot(x, y); }
+static inline float vector3fDot(vector3f x, vector3f y) { return simd_dot(x, y); }
 
 #else
 

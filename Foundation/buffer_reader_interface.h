@@ -14,6 +14,8 @@
 BUFFER_READER* bufferReaderCreate(BUFFER* buffer);
 void bufferReaderRelease(BUFFER_READER* bufferReader);
 
+void bufferReaderSetEditorPosition(BUFFER_READER* reader, unsigned long position);
+
 char* bufferReaderRequestDataToRead(BUFFER_READER* reader, unsigned long length, EXECUTE_RESULT* executeResult);
 char bufferReaderReadInt8(BUFFER_READER* reader, EXECUTE_RESULT* executeResult);
 unsigned char bufferReaderReadUInt8(BUFFER_READER* reader, EXECUTE_RESULT* executeResult);

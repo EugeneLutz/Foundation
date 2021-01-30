@@ -40,17 +40,15 @@ void systemLog(SYSTEM* system, const char* message)
 	system->logFunc(message, system->userInfo);
 }
 
-void systemGetFilePathWithNameAndType(SYSTEM* system, STRING* outPath, const char* name, const char* type, EXECUTE_RESULT* executeResult)
+void systemGetPathForResourceWithName(SYSTEM* system, STRING* outPath, const char* name, const char* type, EXECUTE_RESULT* executeResult)
 {
 	assert(system);
 	assert(outPath);
 	assert(name);
 	assert(type);
 	
-	system->getFilePathWithNameAndTypeFunc(system, outPath, name, type, executeResult);
+	system->getPathForResourceWithNameAndTypeFunc(system, outPath, name, type, executeResult);
 	if (executeResultIsFailed(executeResult)) {
 		return;
 	}
-	
-	executeResultSetSucceeded(executeResult);
 }

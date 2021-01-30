@@ -9,13 +9,18 @@
 #include "private_interface.h"
 #import <Foundation/Foundation.h>
 
-static void _apple_getFilePathWithNameAndType(SYSTEM* system, STRING* outPath, const char* name, const char* type, EXECUTE_RESULT* executeResult)
+static void _apple_getPathForResourceWithNameAndType(SYSTEM* system, STRING* outPath, const char* name, const char* type, EXECUTE_RESULT* executeResult)
 {
 	NSString* resourceName = [NSString stringWithUTF8String:name];
 	NSString* typeName = [NSString stringWithUTF8String:type];
 	NSString* resourcePath = [NSBundle.mainBundle pathForResource:resourceName ofType:typeName];
+	if (!resourcePath) {
+		executeResultSetFailed(executeResult, "Cannot find file with given path.");
+		return;
+	}
 	
 	stringSetData(outPath, resourcePath.UTF8String);
+	executeResultSetSucceeded(executeResult);
 }
 
 static void* _openReadFile(const char* path, FILE_MODE fileMode, void* userInfo, EXECUTE_RESULT* executeResult)
@@ -76,7 +81,7 @@ void systemInitIOFunctionsApple(SYSTEM* system)
 {
 	assert(system);
 	
-	system->getFilePathWithNameAndTypeFunc = _apple_getFilePathWithNameAndType;
+	system->getPathForResourceWithNameAndTypeFunc = _apple_getPathForResourceWithNameAndType;
 	system->fileOpenReadFunc = _openReadFile;
 	system->fileCloseFunc = _closeFile;
 	system->fileGetSizeFunc = _getFileSize;

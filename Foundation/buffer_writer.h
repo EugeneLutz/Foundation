@@ -9,7 +9,7 @@
 #ifndef buffer_writer_h
 #define buffer_writer_h
 
-#include "private_interface.h"
+#include "foundation.h"
 
 typedef struct BUFFER_WRITER
 {

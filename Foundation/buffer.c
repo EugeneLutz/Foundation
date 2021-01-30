@@ -34,9 +34,10 @@ void bufferRequestSize(BUFFER* buffer, unsigned long length)
 {
 	assert(buffer);
 	
-	if (buffer->length < length)
+	if (buffer->capacity < length)
 	{
-		buffer->data = realloc(buffer->data, sizeof(char) * length);
+		buffer->capacity = length;
+		buffer->data = realloc(buffer->data, sizeof(char) * buffer->capacity);
 		assert(buffer->data);
 	}
 }
@@ -92,7 +93,7 @@ BUFFER* bufferCreateFromContentsOfResourceFile(SYSTEM* system, const char* name,
 	
 	STRING path;
 	stringInitializeWithUTF8String(&path, NULL);
-	systemGetFilePathWithNameAndType(system, &path, name, type, executeResult);
+	systemGetPathForResourceWithName(system, &path, name, type, executeResult);
 	if (executeResultIsFailed(executeResult))
 	{
 		stringDeinitialize(&path);

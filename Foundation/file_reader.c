@@ -78,6 +78,13 @@ void fileReaderClose(FILE_READER* reader, EXECUTE_RESULT* executeResult)
 }
 
 
+unsigned long fileReaderGetFileSize(FILE_READER* reader)
+{
+	assert(reader);
+	return reader->size;
+}
+
+
 void fileReaderSetPosition(FILE_READER* reader, unsigned long position, EXECUTE_RESULT* executeResult)
 {
 	if (!reader) {
@@ -110,7 +117,7 @@ void fileReaderReadToBuffer(FILE_READER* reader, BUFFER* buffer, unsigned long s
 		return;
 	}
 	
-	bufferRequestSize(buffer, size);
+	bufferRequestSize(buffer, size);	
 	(*reader->system->fileReadDataFunc)(reader->fileId, buffer->data, size, reader->system->userInfo, executeResult);
 	buffer->length = size;
 }

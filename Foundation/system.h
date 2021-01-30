@@ -22,7 +22,7 @@ typedef struct SYSTEM
 	
 	// MARK: - IO
 	
-	SISTEM_IO_GET_FILE_PATH_WITH_NAME_AND_TYPE_FUNC getFilePathWithNameAndTypeFunc;
+	SISTEM_IO_GET_FILE_PATH_WITH_NAME_AND_TYPE_FUNC getPathForResourceWithNameAndTypeFunc;
 	
 	/// Open file delegate function.
 	FILE_OPEN_READ_FUNC fileOpenReadFunc;

@@ -29,7 +29,15 @@ void bufferReaderRelease(BUFFER_READER* bufferReader)
 }
 
 
-char* bufferRequestDataToRead(BUFFER_READER* reader, unsigned long length, EXECUTE_RESULT* executeResult)
+void bufferReaderSetEditorPosition(BUFFER_READER* reader, unsigned long position)
+{
+	assert(reader);
+	assert(position <= reader->buffer->length);
+	reader->editorPosition = position;
+}
+
+
+char* bufferReaderRequestDataToRead(BUFFER_READER* reader, unsigned long length, EXECUTE_RESULT* executeResult)
 {
 	assert(reader);
 	if (reader->editorPosition + length > reader->buffer->length) {
@@ -70,49 +78,49 @@ static void _bufferReader_readRawData(BUFFER_READER* reader, char* data, unsigne
 	executeResultSetSucceeded(executeResult);
 }
 
-char bufferReadInt8(BUFFER_READER* reader, EXECUTE_RESULT* executeResult) {
+char bufferReaderReadInt8(BUFFER_READER* reader, EXECUTE_RESULT* executeResult) {
 	int8_t data = 0;
 	_bufferReader_readRawData(reader, (char*)&data, sizeof(int8_t), executeResult);
 	return data;
 }
 
-unsigned char bufferReadUInt8(BUFFER_READER* reader, EXECUTE_RESULT* executeResult) {
+unsigned char bufferReaderReadUInt8(BUFFER_READER* reader, EXECUTE_RESULT* executeResult) {
 	uint8_t data = 0;
 	_bufferReader_readRawData(reader, (char*)&data, sizeof(uint8_t), executeResult);
 	return data;
 }
 
-short bufferReadInt16(BUFFER_READER* reader, EXECUTE_RESULT* executeResult) {
+short bufferReaderReadInt16(BUFFER_READER* reader, EXECUTE_RESULT* executeResult) {
 	int16_t data = 0;
 	_bufferReader_readRawData(reader, (char*)&data, sizeof(int16_t), executeResult);
 	return data;
 }
 
-unsigned short bufferReadUInt16(BUFFER_READER* reader, EXECUTE_RESULT* executeResult) {
+unsigned short bufferReaderReadUInt16(BUFFER_READER* reader, EXECUTE_RESULT* executeResult) {
 	uint16_t data = 0;
 	_bufferReader_readRawData(reader, (char*)&data, sizeof(uint16_t), executeResult);
 	return data;
 }
 
-int bufferReadInt32(BUFFER_READER* reader, EXECUTE_RESULT* executeResult) {
+int bufferReaderReadInt32(BUFFER_READER* reader, EXECUTE_RESULT* executeResult) {
 	int32_t data = 0;
 	_bufferReader_readRawData(reader, (char*)&data, sizeof(int32_t), executeResult);
 	return data;
 }
 
-unsigned int bufferReadUInt32(BUFFER_READER* reader, EXECUTE_RESULT* executeResult) {
+unsigned int bufferReaderReadUInt32(BUFFER_READER* reader, EXECUTE_RESULT* executeResult) {
 	uint32_t data = 0;
 	_bufferReader_readRawData(reader, (char*)&data, sizeof(uint32_t), executeResult);
 	return data;
 }
 
-long bufferReadInt64(BUFFER_READER* reader, EXECUTE_RESULT* executeResult) {
+long bufferReaderReadInt64(BUFFER_READER* reader, EXECUTE_RESULT* executeResult) {
 	int64_t data = 0;
 	_bufferReader_readRawData(reader, (char*)&data, sizeof(int64_t), executeResult);
 	return data;
 }
 
-unsigned long bufferReadUInt64(BUFFER_READER* reader, EXECUTE_RESULT* executeResult) {
+unsigned long bufferReaderReadUInt64(BUFFER_READER* reader, EXECUTE_RESULT* executeResult) {
 	uint64_t data = 0;
 	_bufferReader_readRawData(reader, (char*)&data, sizeof(uint64_t), executeResult);
 	return data;

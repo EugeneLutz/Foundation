@@ -16,6 +16,6 @@ void systemRelease(SYSTEM* system);
 
 void systemLog(SYSTEM* system, const char* message);
 
-void systemGetFilePathWithNameAndType(SYSTEM* system, STRING* outPath, const char* name, const char* type, EXECUTE_RESULT* executeResult);
+void systemGetPathForResourceWithName(SYSTEM* system, STRING* outPath, const char* name, const char* type, EXECUTE_RESULT* executeResult);
 
 #endif /* system_interface_h */

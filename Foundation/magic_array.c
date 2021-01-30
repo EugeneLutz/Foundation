@@ -329,6 +329,23 @@ void* magicArrayGetItem(MAGIC_ARRAY* magicArray, unsigned long itemIndex)
 	return magicArray->elements[itemIndex].data;
 }
 
+unsigned int magicArrayGetItemIndex(MAGIC_ARRAY* array, void* item)
+{
+	assert(array);
+	
+	for (unsigned int i = 0; i < array->length; i++)
+	{
+		if (array->elements[i].data == item)
+		{
+			return i;
+		}
+	}
+	
+	// Item is not found
+	assert(0);
+	return 0;
+}
+
 void* magicArrayGetData(MAGIC_ARRAY* magicArray)
 {
 	assert(magicArray);

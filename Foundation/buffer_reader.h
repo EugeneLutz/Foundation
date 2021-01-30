@@ -9,7 +9,7 @@
 #ifndef buffer_reader_h
 #define buffer_reader_h
 
-#include "private_interface.h"
+#include "foundation.h"
 
 typedef struct BUFFER_READER
 {
