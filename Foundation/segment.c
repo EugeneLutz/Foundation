@@ -39,9 +39,9 @@ SEGMENT segmentFromPerspectiveFrustumRightHand(vector2f viewportSize, vector2f p
 	
 	// Make inverse rotation matrix
 	matrix4f rot = matrix4fIdentity();
-	rot = matrix4fMul(matrix4fRotation(-eyeRotation.x, vector3fCreate(1.0f, 0.0f, 0.0f)), rot);
-	rot = matrix4fMul(matrix4fRotation(-eyeRotation.y, vector3fCreate(0.0f, 1.0f, 0.0f)), rot);
-	rot = matrix4fMul(matrix4fRotation(-eyeRotation.z, vector3fCreate(0.0f, 0.0f, 1.0f)), rot);
+	rot = matrix4fMul(matrix4fRotation(-eyeRotation.x, 1.0f, 0.0f, 0.0f), rot);
+	rot = matrix4fMul(matrix4fRotation(-eyeRotation.y, 0.0f, 1.0f, 0.0f), rot);
+	rot = matrix4fMul(matrix4fRotation(-eyeRotation.z, 0.0f, 0.0f, 1.0f), rot);
 	
 	start = matrix4fMulVector4f(rot, start);
 	end = matrix4fMulVector4f(rot, end);
@@ -83,9 +83,9 @@ SEGMENT segmentFromOrthogonalProjectionRightHand(vector2f viewportSize, vector2f
 	
 	// Make inverse rotation matrix
 	matrix4f rot = matrix4fIdentity();
-	rot = matrix4fMul(matrix4fRotation(-eyeRotation.x, vector3fCreate(1.0f, 0.0f, 0.0f)), rot);
-	rot = matrix4fMul(matrix4fRotation(-eyeRotation.y, vector3fCreate(0.0f, 1.0f, 0.0f)), rot);
-	rot = matrix4fMul(matrix4fRotation(-eyeRotation.z, vector3fCreate(0.0f, 0.0f, 1.0f)), rot);
+	rot = matrix4fMul(matrix4fRotation(-eyeRotation.x, 1.0f, 0.0f, 0.0f), rot);
+	rot = matrix4fMul(matrix4fRotation(-eyeRotation.y, 0.0f, 1.0f, 0.0f), rot);
+	rot = matrix4fMul(matrix4fRotation(-eyeRotation.z, 0.0f, 0.0f, 1.0f), rot);
 	
 	start = matrix4fMulVector4f(rot, start);
 	end = matrix4fMulVector4f(rot, end);

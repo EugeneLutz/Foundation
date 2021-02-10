@@ -160,15 +160,15 @@ matrix4f matrix4fLookAtRightHand(vector3f eye, vector3f target, vector3f up)
 }
 
 
-matrix4f matrix4fRotation(float radians, vector3f axis)
+matrix4f matrix4fRotation(float radians, float x, float y, float z)
 {
-	axis = vector3fNormalize(axis);
-	float ct = cosf(radians);
-	float st = sinf(radians);
-	float ci = 1 - ct;
-	float x = axis.x;
-	float y = axis.y;
-	float z = axis.z;
+	vector3f axis = vector3fNormalize(vector3fCreate(x, y, z));
+	const float ct = cosf(radians);
+	const float st = sinf(radians);
+	const float ci = 1 - ct;
+	x = axis.x;
+	y = axis.y;
+	z = axis.z;
 	
 	return (matrix4f) {{
 		{     ct + x * x * ci, y * x * ci + z * st, z * x * ci - y * st, 0 },
@@ -176,6 +176,52 @@ matrix4f matrix4fRotation(float radians, vector3f axis)
 		{ x * z * ci + y * st, y * z * ci - x * st,     ct + z * z * ci, 0 },
 		{                   0,                   0,                   0, 1 }
 	}};
+}
+
+matrix4f matrix4fRotationX(float radians)
+{
+	const float ct = cosf(radians);
+	const float st = sinf(radians);
+	return matrix4fCreateWithRowComponents(1, 0,   0,  0,
+										   0, ct, -st, 0,
+										   0, st,  ct, 0,
+										   0, 0,   0,  1);
+}
+
+matrix4f matrix4fRotationY(float radians)
+{
+	const float ct = cosf(radians);
+	const float st = sinf(radians);
+	return matrix4fCreateWithRowComponents(ct, 0, st, 0,
+										   0,  1, 0,  0,
+										  -st, 0, ct, 0,
+										   0,  0, 0,  1);
+}
+
+matrix4f matrix4fRotationZ(float radians)
+{
+	const float ct = cosf(radians);
+	const float st = sinf(radians);
+	return matrix4fCreateWithRowComponents(ct, -st, 0, 0,
+										   st,  ct, 0, 0,
+										   0,   0,  1, 0,
+										   0,   0,  0, 1);
+}
+
+matrix4f matrix4fRotationFromVector3f(float radians, vector3f axis)
+{
+	axis = vector3fNormalize(axis);
+	const float ct = cosf(radians);
+	const float st = sinf(radians);
+	const float ci = 1 - ct;
+	const float x = axis.x;
+	const float y = axis.y;
+	const float z = axis.z;
+	
+	return matrix4fCreateWithRowComponents(ct + x * x * ci, x * y * ci - z * st, x * z * ci + y * st, 0,
+										   y * x * ci + z * st, ct + y * y * ci, y * z * ci - x * st, 0,
+										   z * x * ci - y * st, z * y * ci + x * st, ct + z * z * ci, 0,
+										   0, 0, 0, 1);
 }
 
 
@@ -196,9 +242,12 @@ matrix4f matrix4fEulerTransform(float head, float pitch, float roll)
 											  0,                0,                0,      1);
 }
 
-matrix4f matrix4fFromQuaternionf(quaternionf q1)
+matrix4f matrix4fFromQuaternionf(quaternionf quaternion)
 {
-	vector4f q = vector4fFromQuaternionf(q1);
+#if defined(__APPLE__) && __APPLE
+	return simd_matrix4x4(quaternion);
+#else
+	vector4f q = vector4fFromQuaternionf(quaternion);
 	const float xx = q.x * q.x;
 	const float xy = q.x * q.y;
 	const float xz = q.x * q.z;
@@ -226,13 +275,18 @@ matrix4f matrix4fFromQuaternionf(quaternionf q1)
 											  m10, m11, m12, 0,
 											  m20, m21, m22, 0,
 											  0,   0,   0,   1);
+#endif
 }
 
 
 matrix4f matrix4fFromAxesVectors3f(vector3f x, vector3f y, vector3f z)
 {
-	return matrix4fCreateWithColumnComponents(x.x, y.x, z.x, 0,
-											  x.y, y.y, z.y, 0,
-											  x.z, y.z, z.z, 0,
-											  0,   0,   0,   1);
+//	return matrix4fCreateWithColumnComponents(x.x, y.x, z.x, 0,
+//											  x.y, y.y, z.y, 0,
+//											  x.z, y.z, z.z, 0,
+//											  0,   0,   0,   1);
+	return matrix4fCreateWithRowComponents(x.x, x.y, x.z, 0,
+										   y.x, y.y, y.z, 0,
+										   z.x, z.y, z.z, 0,
+										   0,   0,   0,   1);
 }

@@ -9,6 +9,9 @@
 #ifndef magic_foundation_h
 #define magic_foundation_h
 
+// HeaderDoc Reference by Justin Loew:
+// http://www.cocoanutsdev.com/resources/headerdoc-reference-by-justin-loew
+
 #ifdef __cplusplus
 extern "C" {
 #endif

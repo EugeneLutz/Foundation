@@ -14,13 +14,19 @@
 #if defined(__APPLE__) && __APPLE__
 
 static inline matrix4f matrix4fCreateWithColumns(vector4f c0, vector4f c1, vector4f c2, vector4f c3) { return simd_matrix(c0, c1, c2, c3); }
+static inline matrix4f matrix4fInvert(matrix4f matrix) { return simd_inverse(matrix); }
 static inline matrix4f matrix4fIdentity(void) { return matrix_identity_float4x4; }
 static inline matrix4f matrix4fMul(matrix4f x, matrix4f y) { return simd_mul(x, y); }
 static inline vector4f matrix4fMulVector4f(matrix4f mat, vector4f vec) { return simd_mul(mat, vec); }
+static inline vector4f matrix4fGetColumn0(matrix4f mat) { return mat.columns[0]; }
+static inline vector4f matrix4fGetColumn1(matrix4f mat) { return mat.columns[1]; }
+static inline vector4f matrix4fGetColumn2(matrix4f mat) { return mat.columns[2]; }
+static inline vector4f matrix4fGetColumn3(matrix4f mat) { return mat.columns[3]; }
 
 #else
 
 matrix4f matrix4fCreateWithColumns(vector4f c0, vector4f c1, vector4f c2, vector4f c3);
+matrix4f matrix4fInvert(matrix4f matrix);
 static inline matrix4f matrix4fIdentity(void) {
 	return matrix4fCreateWithColumns(vector4fCreate(1.0f, 0.0f, 0.0f, 0.0f),
 									 vector4fCreate(0.0f, 1.0f, 0.0f, 0.0f),
@@ -29,6 +35,10 @@ static inline matrix4f matrix4fIdentity(void) {
 }
 matrix4f matrix4fMul(matrix4f x, matrix4f y);
 vector4f matrix4fMulVector4f(matrix4f mat, vector4f vec);
+vector4f matrix4fGetColumn0(matrix4f mat);
+vector4f matrix4fGetColumn1(matrix4f mat);
+vector4f matrix4fGetColumn2(matrix4f mat);
+vector4f matrix4fGetColumn3(matrix4f mat);
 
 #endif
 
@@ -75,9 +85,13 @@ matrix4f matrix4fOrthogonalRightHand_MetalNDC(float left, float top, float right
 matrix4f matrix4fLookAtLeftHand(vector3f eye, vector3f target, vector3f up);
 matrix4f matrix4fLookAtRightHand(vector3f eye, vector3f target, vector3f up);
 
-matrix4f matrix4fRotation(float radians, vector3f axis);
+matrix4f matrix4fRotation(float radians, float x, float y, float z);
+matrix4f matrix4fRotationX(float radians);
+matrix4f matrix4fRotationY(float radians);
+matrix4f matrix4fRotationZ(float radians);
+matrix4f matrix4fRotationFromVector3f(float radians, vector3f axis);
 matrix4f matrix4fEulerTransform(float head, float pitch, float roll);
-matrix4f matrix4fFromQuaternionf(quaternionf q1);
+matrix4f matrix4fFromQuaternionf(quaternionf quaternion);
 
 matrix4f matrix4fFromAxesVectors3f(vector3f x, vector3f y, vector3f z);
 

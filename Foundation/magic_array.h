@@ -11,9 +11,6 @@
 
 #include "foundation.h"
 
-// HeaderDoc Reference by Justin Loew
-// http://www.cocoanutsdev.com/resources/headerdoc-reference-by-justin-loew
-
 /*!
  @abstract
  Private structure that is used by @b MAGIC_ARRAY data.
