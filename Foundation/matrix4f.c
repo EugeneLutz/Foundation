@@ -8,7 +8,7 @@
 
 #include "private_interface.h"
 
-/**
+/*
  
  * Compute the center points of the near and far planes:
  vec3 nearCenter = camPos - camForward * nearDistance;
@@ -54,6 +54,50 @@
  vec3 bottomPlaneNormal = Dot(bottomPlaneNormal , p0);
  
  */
+
+/*
+ Inverse matrix:
+ https://mathworld.wolfram.com/MatrixInverse.html
+ */
+
+#if defined(__APPLE__) && __APPLE__
+
+//
+
+#else
+
+matrix4f matrix4fFromQuaternionf(quaternionf quaternion)
+{
+	vector4f q = vector4fFromQuaternionf(quaternion);
+	const float qxx = q.x * q.x;
+	const float qxy = q.x * q.y;
+	const float qxz = q.x * q.z;
+	const float qxw = q.x * q.w;
+	const float qyy = q.y * q.y;
+	const float qyz = q.y * q.z;
+	const float qyw = q.y * q.w;
+	const float qzz = q.z * q.z;
+	const float qzw = q.z * q.w;
+
+	const float xx = 1 - 2 * (qyy + qzz);
+	const float xy = 2 * (qxy - qzw);
+	const float xz = 2 * (qxz + qyw);
+
+	const float yx = 2 * (qxy + qzw);
+	const float yy = 1 - 2 * (qxx + qzz);
+	const float yz = 2 * (qyz - qxw);
+
+	const float zx = 2 * (qxz - qyw);
+	const float zy = 2 * (qyz + qxw);
+	const float zz = 1 - 2 * (qxx + qyy);
+	
+	return matrix4fCreateWithRowComponents(xx, xy, xz, 0,
+										   yx, yy, yz, 0,
+										   zx, zy, zz, 0,
+										   0,  0,  0,  1);
+}
+
+#endif
 
 matrix4f matrix4fTranslation(float tx, float ty, float tz)
 {
@@ -242,49 +286,9 @@ matrix4f matrix4fEulerTransform(float head, float pitch, float roll)
 											  0,                0,                0,      1);
 }
 
-matrix4f matrix4fFromQuaternionf(quaternionf quaternion)
-{
-#if defined(__APPLE__) && __APPLE
-	return simd_matrix4x4(quaternion);
-#else
-	vector4f q = vector4fFromQuaternionf(quaternion);
-	const float xx = q.x * q.x;
-	const float xy = q.x * q.y;
-	const float xz = q.x * q.z;
-	const float xw = q.x * q.w;
-	const float yy = q.y * q.y;
-	const float yz = q.y * q.z;
-	const float yw = q.y * q.w;
-	const float zz = q.z * q.z;
-	const float zw = q.z * q.w;
-
-	// indices are m<column><row>
-	const float m00 = 1 - 2 * (yy + zz);
-	const float m10 = 2 * (xy - zw);
-	const float m20 = 2 * (xz + yw);
-
-	const float m01 = 2 * (xy + zw);
-	const float m11 = 1 - 2 * (xx + zz);
-	const float m21 = 2 * (yz - xw);
-
-	const float m02 = 2 * (xz - yw);
-	const float m12 = 2 * (yz + xw);
-	const float m22 = 1 - 2 * (xx + yy);
-	
-	return matrix4fCreateWithColumnComponents(m00, m01, m02, 0,
-											  m10, m11, m12, 0,
-											  m20, m21, m22, 0,
-											  0,   0,   0,   1);
-#endif
-}
-
 
 matrix4f matrix4fFromAxesVectors3f(vector3f x, vector3f y, vector3f z)
 {
-//	return matrix4fCreateWithColumnComponents(x.x, y.x, z.x, 0,
-//											  x.y, y.y, z.y, 0,
-//											  x.z, y.z, z.z, 0,
-//											  0,   0,   0,   1);
 	return matrix4fCreateWithRowComponents(x.x, x.y, x.z, 0,
 										   y.x, y.y, y.z, 0,
 										   z.x, z.y, z.z, 0,

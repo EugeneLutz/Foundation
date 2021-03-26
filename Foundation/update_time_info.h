@@ -24,6 +24,7 @@ typedef struct UPDATE_TIME_INFO
 	double lastTime;
 	double currentTime;
 	double timeElapsed;
+	//float timeElapsedFloat;
 }
 UPDATE_TIME_INFO;
 

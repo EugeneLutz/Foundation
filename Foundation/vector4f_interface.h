@@ -25,7 +25,12 @@ static inline vector4f vector4fMul(vector4f x, vector4f y) { return x * y; }
 static inline vector4f vector4fDiv(vector4f x, vector4f y) { return x / y; }
 static inline vector4f vector4fNormalize(vector4f x) { return simd_normalize((x)); }
 static inline vector4f vector4fDot(vector4f x, vector4f y) { return simd_dot(x, y); }
+
 static inline vector3f vector4f_xyz(vector4f x) { return x.xyz; }
+static inline float vector4f_x(vector4f vector) { return vector.x; }
+static inline float vector4f_y(vector4f vector) { return vector.y; }
+static inline float vector4f_z(vector4f vector) { return vector.z; }
+static inline float vector4f_w(vector4f vector) { return vector.w; }
 
 #else
 
@@ -41,7 +46,12 @@ vector4f vector4fMul(vector4f x, vector4f y);
 vector4f vector4fDiv(vector4f x, vector4f y);
 vector4f vector4fNormalize(vector4f x);
 vector4f vector4fDot(vector4f x, vector4f y);
+
 vector3f vector4f_xyz(vector4f x);
+float vector4f_x(vector4f vector);
+float vector4f_y(vector4f vector);
+float vector4f_z(vector4f vector);
+float vector4f_w(vector4f vector);
 
 #endif
 

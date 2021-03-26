@@ -8,7 +8,6 @@
 
 #include "private_interface.h"
 
-
 vector2f vector2fNormalizedFromRadians(float radians)
 {
 	float x = cosf(radians);

@@ -27,6 +27,9 @@ static inline vector2f vector2fInvert(vector2f x) { return -x; }
 static inline vector2f vector2fNormalize(vector2f x) { return simd_normalize(x); }
 static inline vector2f vector2fDot(vector2f x, vector2f y) { return simd_dot(x, y); }
 
+static inline float vector2f_x(vector2f vector) { return vector.x; }
+static inline float vector2f_y(vector2f vector) { return vector.y; }
+
 #else
 
 vector2f vector2fCreate(float x, float y);
@@ -42,6 +45,9 @@ vector2f vector2fDiv(vector2f x, vector2f y);
 vector2f vector2fInvert(vector2f x);
 vector2f vector2fNormalize(vector2f x);
 vector2f vector2fDot(vector2f x, vector2f y);
+
+float vector2f_x(vector2f vector);
+float vector2f_y(vector2f vector);
 
 #endif
 

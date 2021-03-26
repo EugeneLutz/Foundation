@@ -84,6 +84,9 @@ MAGIC_ARRAY_COMPONENT;
  
  magicArrayDeinitialize(&persons);
  @endcode
+ 
+ Another way to initialize an array is to use data allocator (DATA_ALLOCATOR).
+ 
  @warning
  Don't access elements of this structure unless you clearly know what you're doing. Instead use dedicated functions to work with this data type. It's more convenient and safe to use these functions.
  */

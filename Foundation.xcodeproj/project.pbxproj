@@ -133,6 +133,9 @@
 		C971E9F825C5A040006B7C5A /* input_touch.h in Headers */ = {isa = PBXBuildFile; fileRef = C90C4FB6245A1AFB00E93F36 /* input_touch.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		C971EA0125C5A0E5006B7C5A /* input_command.h in Headers */ = {isa = PBXBuildFile; fileRef = C91B3E8723D5F2CE0010A5FD /* input_command.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		C971EA0625C5A13D006B7C5A /* input_responder_delegate.h in Headers */ = {isa = PBXBuildFile; fileRef = C91B3E8623D5E95C0010A5FD /* input_responder_delegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C9828F2025D6D29200B79B60 /* frustum.h in Headers */ = {isa = PBXBuildFile; fileRef = C9828F1E25D6D29200B79B60 /* frustum.h */; };
+		C9828F2125D6D29200B79B60 /* frustum.c in Sources */ = {isa = PBXBuildFile; fileRef = C9828F1F25D6D29200B79B60 /* frustum.c */; };
+		C9828F2225D6D29200B79B60 /* frustum.c in Sources */ = {isa = PBXBuildFile; fileRef = C9828F1F25D6D29200B79B60 /* frustum.c */; };
 		C994A37D2595D7D8002E168A /* matrix4f_interface.h in Headers */ = {isa = PBXBuildFile; fileRef = C994A37B2595D7D8002E168A /* matrix4f_interface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C994A37E2595D7D8002E168A /* matrix4f.c in Sources */ = {isa = PBXBuildFile; fileRef = C994A37C2595D7D8002E168A /* matrix4f.c */; };
 		C994A37F2595D7D8002E168A /* matrix4f.c in Sources */ = {isa = PBXBuildFile; fileRef = C994A37C2595D7D8002E168A /* matrix4f.c */; };
@@ -258,6 +261,9 @@
 		C96DC3F3259FAE9900619499 /* data_allocator_private_interface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = data_allocator_private_interface.h; sourceTree = "<group>"; };
 		C96DC3FA259FB0C300619499 /* data_allocator_interface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = data_allocator_interface.h; sourceTree = "<group>"; };
 		C96DC3FB259FB0C300619499 /* data_allocator.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = data_allocator.c; sourceTree = "<group>"; };
+		C9828F1E25D6D29200B79B60 /* frustum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = frustum.h; sourceTree = "<group>"; };
+		C9828F1F25D6D29200B79B60 /* frustum.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = frustum.c; sourceTree = "<group>"; };
+		C9828F2525D6D2D400B79B60 /* frustum_interface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = frustum_interface.h; sourceTree = "<group>"; };
 		C994A37A2595D794002E168A /* matrix4f.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = matrix4f.h; sourceTree = "<group>"; };
 		C994A37B2595D7D8002E168A /* matrix4f_interface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = matrix4f_interface.h; sourceTree = "<group>"; };
 		C994A37C2595D7D8002E168A /* matrix4f.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = matrix4f.c; sourceTree = "<group>"; };
@@ -398,6 +404,7 @@
 				C9643DF2259614910019222B /* matrix4x4f */,
 				C90376FB25A0EB99000E9E1C /* ray */,
 				C90376FC25A0EBC9000E9E1C /* segment */,
+				C9828F1D25D6D23400B79B60 /* frustum */,
 				C9163B8823D24C4A00792565 /* math_utils.h */,
 			);
 			name = Math;
@@ -612,6 +619,16 @@
 			name = "Data allocator";
 			sourceTree = "<group>";
 		};
+		C9828F1D25D6D23400B79B60 /* frustum */ = {
+			isa = PBXGroup;
+			children = (
+				C9828F1E25D6D29200B79B60 /* frustum.h */,
+				C9828F2525D6D2D400B79B60 /* frustum_interface.h */,
+				C9828F1F25D6D29200B79B60 /* frustum.c */,
+			);
+			name = frustum;
+			sourceTree = "<group>";
+		};
 		C9D0F18A24A4BD46004ACBA6 /* Array */ = {
 			isa = PBXGroup;
 			children = (
@@ -730,6 +747,7 @@
 				C971E80A25C4C3A0006B7C5A /* magic_array_item_distribution.h in Headers */,
 				C91B3E8423D5C9210010A5FD /* input_responder_interface.h in Headers */,
 				C94D84DF23DA05040097DABF /* input_mouse_interface.h in Headers */,
+				C9828F2025D6D29200B79B60 /* frustum.h in Headers */,
 				C971E9EC25C59FD9006B7C5A /* mouse_key.h in Headers */,
 				C91B3E9A23D601C00010A5FD /* input_mouse.h in Headers */,
 				C971E8C025C56891006B7C5A /* tracking_keyboard_button.h in Headers */,
@@ -844,6 +862,7 @@
 				C9643DD62596086A0019222B /* vector3f.c in Sources */,
 				C94D84E023DA05040097DABF /* input_mouse.c in Sources */,
 				C994A37E2595D7D8002E168A /* matrix4f.c in Sources */,
+				C9828F2125D6D29200B79B60 /* frustum.c in Sources */,
 				C9D31AA123D48D5B00DC052C /* semaphore.c in Sources */,
 				C9E671802455D18C00E8F8A3 /* tracking_keyboard_button.c in Sources */,
 				C936658523E201DD00BABBDB /* segment.c in Sources */,
@@ -884,6 +903,7 @@
 				C9643DD72596086A0019222B /* vector3f.c in Sources */,
 				C994A37F2595D7D8002E168A /* matrix4f.c in Sources */,
 				C93BBA65244F0BA0005A1C18 /* input_command.c in Sources */,
+				C9828F2225D6D29200B79B60 /* frustum.c in Sources */,
 				C93BBA63244F0BA0005A1C18 /* input_keyboard.c in Sources */,
 				C9E671812455D18C00E8F8A3 /* tracking_keyboard_button.c in Sources */,
 				C9643DC62595F5AE0019222B /* quaternionf.c in Sources */,

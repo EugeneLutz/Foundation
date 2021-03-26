@@ -24,8 +24,9 @@ void magicArrayClear(MAGIC_ARRAY* magicArray);
 
 unsigned int magicArrayGetLength(MAGIC_ARRAY* magicArray);
 void* magicArrayAddItem(MAGIC_ARRAY* magicArray);
+void* magicArrayInsertItem(MAGIC_ARRAY* magicArray, unsigned int itemIndex);
 void magicArrayRemoveItemByIndex(MAGIC_ARRAY* magicArray, unsigned int itemIndex);
-void magicArrayRemoveItem(MAGIC_ARRAY* magicArray, void* item);
+int magicArrayRemoveItem(MAGIC_ARRAY* magicArray, void* item);
 void* magicArrayGetItem(MAGIC_ARRAY* magicArray, unsigned long itemIndex);
 unsigned int magicArrayGetItemIndex(MAGIC_ARRAY* array, void* item);
 void* magicArrayGetData(MAGIC_ARRAY* magicArray);

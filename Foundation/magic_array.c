@@ -195,26 +195,39 @@ unsigned int magicArrayGetLength(MAGIC_ARRAY* magicArray)
 	return magicArray->length;
 }
 
+static DATA_BLOCK_ITEM _magicArray_addUnorderedItem(MAGIC_ARRAY* magicArray)
+{
+	DATA_ALLOCATOR* allocator = magicArray->allocator;
+	
+	// Receive new item from data allocator
+	const long lastCapacity = allocator->dataBlockCapacity * allocator->numDataBlocks;
+	DATA_BLOCK_ITEM item;
+	dataAllocatorAddItem(allocator, &item);
+	
+	// TODO: Solve MAGIC_ARRAY strange code (maybe bug)
+	// If capacity of allocator has changed while receiving a new item, then increase buffer of elements in array too (because... what?! why did I do that??? why not to use the MAGIC_ARRAY.capacity value?)
+	const long currentCapacity = allocator->dataBlockCapacity * allocator->numDataBlocks;
+	//if (magicArray->length >= magicArray->capacity)
+	if (currentCapacity != lastCapacity)
+	{
+		magicArray->elements = realloc(magicArray->elements, sizeof(DATA_BLOCK_ITEM) * currentCapacity);
+		assert(magicArray->elements);
+	}
+	
+	magicArray->length++;
+	debug_memset(item.data, 0, magicArray->itemSize);
+	
+	return item;
+}
+
 void* magicArrayAddItem(MAGIC_ARRAY* magicArray)
 {
 	assert(magicArray);
 	
 	if (magicArray->distribution == MAGIC_ARRAY_ITEM_DISTRIBUTION_DONT_CARE)
 	{
-		DATA_ALLOCATOR* allocator = magicArray->allocator;
-		const long lastCapacity = allocator->dataBlockCapacity * allocator->numDataBlocks;
-		DATA_BLOCK_ITEM item;
-		dataAllocatorAddItem(allocator, &item);
-		const long currentCapacity = allocator->dataBlockCapacity * allocator->numDataBlocks;
-		if (currentCapacity != lastCapacity)
-		{
-			magicArray->elements = realloc(magicArray->elements, sizeof(DATA_BLOCK_ITEM) * currentCapacity);
-			assert(magicArray->elements);
-		}
-		
-		magicArray->elements[magicArray->length] = item;
-		magicArray->length++;
-		
+		DATA_BLOCK_ITEM item = _magicArray_addUnorderedItem(magicArray);
+		magicArray->elements[magicArray->length - 1] = item;
 		return item.data;
 	}
 	else
@@ -256,7 +269,37 @@ void* magicArrayAddItem(MAGIC_ARRAY* magicArray)
 			magicArray->data.firstFreeElementIndex++;
 		}
 		
+		debug_memset(item, 0, magicArray->itemSize);
 		return item;
+	}
+}
+
+void* magicArrayInsertItem(MAGIC_ARRAY* magicArray, unsigned int itemIndex)
+{
+	assert(magicArray);
+	assert(itemIndex < magicArray->length + 1);
+	
+	if (magicArray->distribution == MAGIC_ARRAY_ITEM_DISTRIBUTION_DONT_CARE)
+	{
+		// 1. Create a new element
+		DATA_BLOCK_ITEM item = _magicArray_addUnorderedItem(magicArray);
+		
+		// 2. Shift values in element array
+		for (unsigned int i = magicArray->length - 1; i > itemIndex; i--)
+		{
+			magicArray->elements[i] = magicArray->elements[i - 1];
+		}
+		
+		// 3. Set the element value
+		magicArray->elements[itemIndex] = item;
+		
+		return item.data;
+	}
+	else
+	{
+		// TODO: implement
+		assert(0);
+		return NULL;
 	}
 }
 
@@ -294,24 +337,22 @@ void magicArrayRemoveItemByIndex(MAGIC_ARRAY* magicArray, unsigned int itemIndex
 	magicArray->length--;
 }
 
-void magicArrayRemoveItem(MAGIC_ARRAY* magicArray, void* item)
+int magicArrayRemoveItem(MAGIC_ARRAY* magicArray, void* item)
 {
 	assert(magicArray);
 	assert(item);
 	
-	int removed = 0;
 	for (unsigned int i = 0; i < magicArray->length; i++)
 	{
 		DATA_BLOCK_ITEM* element = magicArray->elements + i;
 		if (element->data == item)
 		{
 			magicArrayRemoveItemByIndex(magicArray, i);
-			removed = 1;
-			break;
+			return 1;
 		}
 	}
 	
-	assert(removed);
+	return 0;
 }
 
 void* magicArrayGetItem(MAGIC_ARRAY* magicArray, unsigned long itemIndex)
@@ -343,7 +384,7 @@ unsigned int magicArrayGetItemIndex(MAGIC_ARRAY* array, void* item)
 	
 	// Item is not found
 	assert(0);
-	return 0;
+	return -1;
 }
 
 void* magicArrayGetData(MAGIC_ARRAY* magicArray)

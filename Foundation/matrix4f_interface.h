@@ -14,18 +14,41 @@
 #if defined(__APPLE__) && __APPLE__
 
 static inline matrix4f matrix4fCreateWithColumns(vector4f c0, vector4f c1, vector4f c2, vector4f c3) { return simd_matrix(c0, c1, c2, c3); }
+static inline matrix4f matrix4fFromQuaternionf(quaternionf quaternion) { return simd_matrix4x4(quaternion); }
 static inline matrix4f matrix4fInvert(matrix4f matrix) { return simd_inverse(matrix); }
 static inline matrix4f matrix4fIdentity(void) { return matrix_identity_float4x4; }
 static inline matrix4f matrix4fMul(matrix4f x, matrix4f y) { return simd_mul(x, y); }
 static inline vector4f matrix4fMulVector4f(matrix4f mat, vector4f vec) { return simd_mul(mat, vec); }
+static inline matrix4f matrix4fMulQuaternionf(matrix4f mat, quaternionf q) { return simd_mul(mat, simd_matrix4x4(q)); }
 static inline vector4f matrix4fGetColumn0(matrix4f mat) { return mat.columns[0]; }
 static inline vector4f matrix4fGetColumn1(matrix4f mat) { return mat.columns[1]; }
 static inline vector4f matrix4fGetColumn2(matrix4f mat) { return mat.columns[2]; }
 static inline vector4f matrix4fGetColumn3(matrix4f mat) { return mat.columns[3]; }
 
+static inline float matrix4f_v00(matrix4f mat) { return mat.columns[0][0]; }
+static inline float matrix4f_v01(matrix4f mat) { return mat.columns[1][0]; }
+static inline float matrix4f_v02(matrix4f mat) { return mat.columns[2][0]; }
+static inline float matrix4f_v03(matrix4f mat) { return mat.columns[3][0]; }
+
+static inline float matrix4f_v10(matrix4f mat) { return mat.columns[0][1]; }
+static inline float matrix4f_v11(matrix4f mat) { return mat.columns[1][1]; }
+static inline float matrix4f_v12(matrix4f mat) { return mat.columns[2][1]; }
+static inline float matrix4f_v13(matrix4f mat) { return mat.columns[3][1]; }
+
+static inline float matrix4f_v20(matrix4f mat) { return mat.columns[0][2]; }
+static inline float matrix4f_v21(matrix4f mat) { return mat.columns[1][2]; }
+static inline float matrix4f_v22(matrix4f mat) { return mat.columns[2][2]; }
+static inline float matrix4f_v23(matrix4f mat) { return mat.columns[3][2]; }
+
+static inline float matrix4f_v30(matrix4f mat) { return mat.columns[0][3]; }
+static inline float matrix4f_v31(matrix4f mat) { return mat.columns[1][3]; }
+static inline float matrix4f_v32(matrix4f mat) { return mat.columns[2][3]; }
+static inline float matrix4f_v33(matrix4f mat) { return mat.columns[3][3]; }
+
 #else
 
 matrix4f matrix4fCreateWithColumns(vector4f c0, vector4f c1, vector4f c2, vector4f c3);
+matrix4f matrix4fFromQuaternionf(quaternionf quaternion);
 matrix4f matrix4fInvert(matrix4f matrix);
 static inline matrix4f matrix4fIdentity(void) {
 	return matrix4fCreateWithColumns(vector4fCreate(1.0f, 0.0f, 0.0f, 0.0f),
@@ -35,6 +58,7 @@ static inline matrix4f matrix4fIdentity(void) {
 }
 matrix4f matrix4fMul(matrix4f x, matrix4f y);
 vector4f matrix4fMulVector4f(matrix4f mat, vector4f vec);
+matrix4f matrix4fMulQuaternionf(matrix4f mat, quaternionf q);
 vector4f matrix4fGetColumn0(matrix4f mat);
 vector4f matrix4fGetColumn1(matrix4f mat);
 vector4f matrix4fGetColumn2(matrix4f mat);
@@ -91,7 +115,6 @@ matrix4f matrix4fRotationY(float radians);
 matrix4f matrix4fRotationZ(float radians);
 matrix4f matrix4fRotationFromVector3f(float radians, vector3f axis);
 matrix4f matrix4fEulerTransform(float head, float pitch, float roll);
-matrix4f matrix4fFromQuaternionf(quaternionf quaternion);
 
 matrix4f matrix4fFromAxesVectors3f(vector3f x, vector3f y, vector3f z);
 

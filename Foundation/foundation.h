@@ -86,6 +86,7 @@ typedef struct SYSTEM SYSTEM;
 #include "matrix4f.h"
 #include "ray.h"
 #include "segment.h"
+#include "frustum.h"
 
 #include "data_block_item.h"
 #include "magic_string.h"
@@ -105,6 +106,7 @@ typedef struct SYSTEM SYSTEM;
 #include "matrix4f_interface.h"
 #include "ray_interface.h"
 #include "segment_interface.h"
+#include "frustum_interface.h"
 
 #include "buffer_interface.h"
 #include "buffer_reader_interface.h"
