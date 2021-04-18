@@ -1,20 +1,20 @@
 //
-//  magic_array_interface.h
+//  magic_array_public.h
 //  Foundation
 //
 //  Created by Евгений Лютц on 06.11.20.
 //  Copyright © 2020 Eugene Lutz. All rights reserved.
 //
 
-#ifndef magic_array_interface_h
-#define magic_array_interface_h
+#ifndef magic_array_public_h
+#define magic_array_public_h
 
 #include "foundation.h"
 
-MAGIC_ARRAY* magicArrayCreateWithAllocator(DATA_ALLOCATOR* allocator);
+MAGIC_ARRAY* magicArrayCreateWithAllocator(DATA_ALLOCATOR* allocator, unsigned int capacityIncrement);
 MAGIC_ARRAY* magicArrayCreate(MAGIC_ARRAY_ITEM_DISTRIBUTION distribution, unsigned int itemSize, unsigned int sizeIncrement);
 
-void magicArrayInitializeWithAllocator(MAGIC_ARRAY* magicArray, DATA_ALLOCATOR* allocator);
+void magicArrayInitializeWithAllocator(MAGIC_ARRAY* magicArray, DATA_ALLOCATOR* allocator, unsigned int capacityIncrement);
 void magicArrayInitialize(MAGIC_ARRAY* magicArray, MAGIC_ARRAY_ITEM_DISTRIBUTION distribution, unsigned int itemSize, unsigned int capacityIncrement);
 
 void magicArrayDeinitialize(MAGIC_ARRAY* magicArray);
@@ -31,4 +31,4 @@ void* magicArrayGetItem(MAGIC_ARRAY* magicArray, unsigned long itemIndex);
 unsigned int magicArrayGetItemIndex(MAGIC_ARRAY* array, void* item);
 void* magicArrayGetData(MAGIC_ARRAY* magicArray);
 
-#endif /* magic_array_interface_h */
+#endif /* magic_array_public_h */

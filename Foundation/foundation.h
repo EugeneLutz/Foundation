@@ -113,7 +113,7 @@ typedef struct SYSTEM SYSTEM;
 #include "buffer_writer_interface.h"
 #include "data_allocator_interface.h"
 #include "magic_string_interface.h"
-#include "magic_array_interface.h"
+#include "magic_array_public.h"
 #include "magic_dictionary_interface.h"
 #include "execute_result_interface.h"
 

@@ -55,11 +55,11 @@ static void _magicArrayComponent_deinitialize(MAGIC_ARRAY_COMPONENT* component)
 }
 
 
-MAGIC_ARRAY* magicArrayCreateWithAllocator(DATA_ALLOCATOR* allocator)
+MAGIC_ARRAY* magicArrayCreateWithAllocator(DATA_ALLOCATOR* allocator, unsigned int capacityIncrement)
 {
 	assert(allocator);
 	MAGIC_ARRAY* magicArray = malloc(sizeof(MAGIC_ARRAY));
-	magicArrayInitializeWithAllocator(magicArray, allocator);
+	magicArrayInitializeWithAllocator(magicArray, allocator, capacityIncrement);
 	return magicArray;
 }
 
@@ -71,7 +71,7 @@ MAGIC_ARRAY* magicArrayCreate(MAGIC_ARRAY_ITEM_DISTRIBUTION distribution, unsign
 }
 
 
-void magicArrayInitializeWithAllocator(MAGIC_ARRAY* magicArray, DATA_ALLOCATOR* allocator)
+void magicArrayInitializeWithAllocator(MAGIC_ARRAY* magicArray, DATA_ALLOCATOR* allocator, unsigned int capacityIncrement)
 {
 	assert(magicArray);
 	assert(allocator);
@@ -79,14 +79,15 @@ void magicArrayInitializeWithAllocator(MAGIC_ARRAY* magicArray, DATA_ALLOCATOR* 
 	magicArray->distribution = MAGIC_ARRAY_ITEM_DISTRIBUTION_DONT_CARE;
 	magicArray->allowItemsReorder = 0;	// Is not used
 	magicArray->itemSize = 0;			// Is not used
-	magicArray->capaciryIncrement = 0;	// Is not used
+	magicArray->capaciryIncrement = capacityIncrement;
+	magicArray->capacity = magicArray->capaciryIncrement;
 	magicArray->length = 0;
 	memset(&magicArray->data, 0, sizeof(MAGIC_ARRAY_COMPONENT));	// Is not used
 	magicArray->allocatorIsReferenced = 1;
 	magicArray->allocator = allocator;
 	
 	// allocate memory for a bit faster element access
-	magicArray->elements = malloc(sizeof(DATA_BLOCK_ITEM) * allocator->dataBlockCapacity * allocator->numDataBlocks);
+	magicArray->elements = malloc(sizeof(DATA_BLOCK_ITEM) * magicArray->capacity);
 }
 
 void magicArrayInitialize(MAGIC_ARRAY* magicArray, MAGIC_ARRAY_ITEM_DISTRIBUTION distribution, unsigned int itemSize, unsigned int capacityIncrement)
@@ -101,13 +102,14 @@ void magicArrayInitialize(MAGIC_ARRAY* magicArray, MAGIC_ARRAY_ITEM_DISTRIBUTION
 	magicArray->allowItemsReorder = 0;
 	magicArray->itemSize = itemSize;
 	magicArray->capaciryIncrement = capacityIncrement;
+	magicArray->capacity = capacityIncrement;
 	magicArray->length = 0;
 	magicArray->allocatorIsReferenced = 0;
 	magicArray->allocator = NULL;
 	
 	if (distribution == MAGIC_ARRAY_ITEM_DISTRIBUTION_DONT_CARE)
 	{
-		magicArray->elements = malloc(sizeof(DATA_BLOCK_ITEM) * capacityIncrement);
+		magicArray->elements = malloc(sizeof(DATA_BLOCK_ITEM) * magicArray->capacity);
 		magicArray->allocator = dataAllocatorCreate(itemSize, capacityIncrement);
 	}
 	else
@@ -197,24 +199,18 @@ unsigned int magicArrayGetLength(MAGIC_ARRAY* magicArray)
 
 static DATA_BLOCK_ITEM _magicArray_addUnorderedItem(MAGIC_ARRAY* magicArray)
 {
-	DATA_ALLOCATOR* allocator = magicArray->allocator;
-	
 	// Receive new item from data allocator
-	const long lastCapacity = allocator->dataBlockCapacity * allocator->numDataBlocks;
 	DATA_BLOCK_ITEM item;
-	dataAllocatorAddItem(allocator, &item);
+	dataAllocatorAddItem(magicArray->allocator, &item);
+	magicArray->length++;
 	
-	// TODO: Solve MAGIC_ARRAY strange code (maybe bug)
-	// If capacity of allocator has changed while receiving a new item, then increase buffer of elements in array too (because... what?! why did I do that??? why not to use the MAGIC_ARRAY.capacity value?)
-	const long currentCapacity = allocator->dataBlockCapacity * allocator->numDataBlocks;
-	//if (magicArray->length >= magicArray->capacity)
-	if (currentCapacity != lastCapacity)
+	if (magicArray->length >= magicArray->capacity)
 	{
-		magicArray->elements = realloc(magicArray->elements, sizeof(DATA_BLOCK_ITEM) * currentCapacity);
+		magicArray->capacity += magicArray->capaciryIncrement;
+		magicArray->elements = realloc(magicArray->elements, sizeof(DATA_BLOCK_ITEM) * magicArray->capacity);
 		assert(magicArray->elements);
 	}
 	
-	magicArray->length++;
 	debug_memset(item.data, 0, magicArray->itemSize);
 	
 	return item;
