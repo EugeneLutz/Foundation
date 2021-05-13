@@ -38,7 +38,7 @@ typedef struct DATA_BLOCK DATA_BLOCK;
 // MARK: - Private interface
 
 #include "buffer_private_interface.h"
-#include "data_allocator_private_interface.h"
+#include "data_allocator_private.h"
 #include "tracking_keyboard_button_private_interface.h"
 
 #endif /* foundation_private_interface_h */

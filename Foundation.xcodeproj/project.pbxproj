@@ -89,7 +89,7 @@
 		C96DC3EA259F526000619499 /* buffer_writer_interface.h in Headers */ = {isa = PBXBuildFile; fileRef = C96DC3E8259F526000619499 /* buffer_writer_interface.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C96DC3EB259F526000619499 /* buffer_writer.c in Sources */ = {isa = PBXBuildFile; fileRef = C96DC3E9259F526000619499 /* buffer_writer.c */; };
 		C96DC3EC259F526000619499 /* buffer_writer.c in Sources */ = {isa = PBXBuildFile; fileRef = C96DC3E9259F526000619499 /* buffer_writer.c */; };
-		C96DC3FC259FB0C300619499 /* data_allocator_interface.h in Headers */ = {isa = PBXBuildFile; fileRef = C96DC3FA259FB0C300619499 /* data_allocator_interface.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C96DC3FC259FB0C300619499 /* data_allocator_public.h in Headers */ = {isa = PBXBuildFile; fileRef = C96DC3FA259FB0C300619499 /* data_allocator_public.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C96DC3FD259FB0C300619499 /* data_allocator.c in Sources */ = {isa = PBXBuildFile; fileRef = C96DC3FB259FB0C300619499 /* data_allocator.c */; };
 		C96DC3FE259FB0C300619499 /* data_allocator.c in Sources */ = {isa = PBXBuildFile; fileRef = C96DC3FB259FB0C300619499 /* data_allocator.c */; };
 		C971E7D525C4C1B7006B7C5A /* vector3f.h in Headers */ = {isa = PBXBuildFile; fileRef = C9643DD2259607E20019222B /* vector3f.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -116,7 +116,7 @@
 		C971E87D25C5675A006B7C5A /* private_interface.h in Headers */ = {isa = PBXBuildFile; fileRef = C95E8A5925560211005FCB01 /* private_interface.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		C971E88225C5676A006B7C5A /* routines.h in Headers */ = {isa = PBXBuildFile; fileRef = C91B3E9F23D62BC50010A5FD /* routines.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C971E88725C5677A006B7C5A /* buffer_private_interface.h in Headers */ = {isa = PBXBuildFile; fileRef = C96DC3CF259F49CF00619499 /* buffer_private_interface.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		C971E88C25C5678C006B7C5A /* data_allocator_private_interface.h in Headers */ = {isa = PBXBuildFile; fileRef = C96DC3F3259FAE9900619499 /* data_allocator_private_interface.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		C971E88C25C5678C006B7C5A /* data_allocator_private.h in Headers */ = {isa = PBXBuildFile; fileRef = C96DC3F3259FAE9900619499 /* data_allocator_private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		C971E89525C567D9006B7C5A /* data_allocator.h in Headers */ = {isa = PBXBuildFile; fileRef = C96DC3F2259FAE6200619499 /* data_allocator.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		C971E89A25C567E6006B7C5A /* buffer_writer.h in Headers */ = {isa = PBXBuildFile; fileRef = C96DC3E0259F524400619499 /* buffer_writer.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		C971E89F25C567EC006B7C5A /* buffer_reader.h in Headers */ = {isa = PBXBuildFile; fileRef = C96DC3DF259F523A00619499 /* buffer_reader.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -258,8 +258,8 @@
 		C96DC3E8259F526000619499 /* buffer_writer_interface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = buffer_writer_interface.h; sourceTree = "<group>"; };
 		C96DC3E9259F526000619499 /* buffer_writer.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = buffer_writer.c; sourceTree = "<group>"; };
 		C96DC3F2259FAE6200619499 /* data_allocator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = data_allocator.h; sourceTree = "<group>"; };
-		C96DC3F3259FAE9900619499 /* data_allocator_private_interface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = data_allocator_private_interface.h; sourceTree = "<group>"; };
-		C96DC3FA259FB0C300619499 /* data_allocator_interface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = data_allocator_interface.h; sourceTree = "<group>"; };
+		C96DC3F3259FAE9900619499 /* data_allocator_private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = data_allocator_private.h; sourceTree = "<group>"; };
+		C96DC3FA259FB0C300619499 /* data_allocator_public.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = data_allocator_public.h; sourceTree = "<group>"; };
 		C96DC3FB259FB0C300619499 /* data_allocator.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = data_allocator.c; sourceTree = "<group>"; };
 		C9828F1E25D6D29200B79B60 /* frustum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = frustum.h; sourceTree = "<group>"; };
 		C9828F1F25D6D29200B79B60 /* frustum.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = frustum.c; sourceTree = "<group>"; };
@@ -612,8 +612,8 @@
 			children = (
 				C9DF09B1259FB9450098197A /* data_block_item.h */,
 				C96DC3F2259FAE6200619499 /* data_allocator.h */,
-				C96DC3F3259FAE9900619499 /* data_allocator_private_interface.h */,
-				C96DC3FA259FB0C300619499 /* data_allocator_interface.h */,
+				C96DC3F3259FAE9900619499 /* data_allocator_private.h */,
+				C96DC3FA259FB0C300619499 /* data_allocator_public.h */,
 				C96DC3FB259FB0C300619499 /* data_allocator.c */,
 			);
 			name = "Data allocator";
@@ -723,7 +723,7 @@
 				C971E81E25C4C46E006B7C5A /* system_io_functions.h in Headers */,
 				C971E8AE25C5684C006B7C5A /* file_reader.h in Headers */,
 				C971E8B825C5685E006B7C5A /* thread.h in Headers */,
-				C96DC3FC259FB0C300619499 /* data_allocator_interface.h in Headers */,
+				C96DC3FC259FB0C300619499 /* data_allocator_public.h in Headers */,
 				C971E8B325C56857006B7C5A /* semaphore.h in Headers */,
 				C971E9F825C5A040006B7C5A /* input_touch.h in Headers */,
 				C9643DCB2595F6860019222B /* vector2f_interface.h in Headers */,
@@ -767,7 +767,7 @@
 				C9643DE52596114F0019222B /* matrix3f_interface.h in Headers */,
 				C9163B8923D24C4A00792565 /* math_utils.h in Headers */,
 				C971E8A925C56835006B7C5A /* magic_dictionary_element.h in Headers */,
-				C971E88C25C5678C006B7C5A /* data_allocator_private_interface.h in Headers */,
+				C971E88C25C5678C006B7C5A /* data_allocator_private.h in Headers */,
 				C96DC3E3259F525100619499 /* buffer_reader_interface.h in Headers */,
 				C971E88225C5676A006B7C5A /* routines.h in Headers */,
 				C96DC3EA259F526000619499 /* buffer_writer_interface.h in Headers */,

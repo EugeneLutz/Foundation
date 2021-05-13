@@ -15,6 +15,7 @@ static void _dataBlock_initialize(DATA_BLOCK* dataBlock, DATA_ALLOCATOR* allocat
 	dataBlock->firstAvailableItem = 0;
 	dataBlock->engagedItems = malloc(sizeof(char) * allocator->dataBlockCapacity);
 	memset(dataBlock->engagedItems, 0, sizeof(char) * allocator->dataBlockCapacity);
+	
 	dataBlock->data = malloc(allocator->itemSize * allocator->dataBlockCapacity);
 	debug_memset(dataBlock->data, 0, allocator->itemSize * allocator->dataBlockCapacity);
 }
@@ -43,7 +44,7 @@ void dataAllocatorInitialize(DATA_ALLOCATOR* allocator, unsigned int itemSize, u
 	container->dataBlocks = malloc(sizeof(DATA_BLOCK) * allocator->numDataBlocks);
 	for (unsigned int i = 0; i < allocator->numDataBlocks; i++)
 	{
-		DATA_BLOCK* dataBlock = container->data + i;
+		DATA_BLOCK* dataBlock = container->dataBlocks + i;
 		_dataBlock_initialize(dataBlock, allocator);
 	}
 }

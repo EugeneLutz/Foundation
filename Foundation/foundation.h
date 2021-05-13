@@ -111,7 +111,7 @@ typedef struct SYSTEM SYSTEM;
 #include "buffer_interface.h"
 #include "buffer_reader_interface.h"
 #include "buffer_writer_interface.h"
-#include "data_allocator_interface.h"
+#include "data_allocator_public.h"
 #include "magic_string_interface.h"
 #include "magic_array_public.h"
 #include "magic_dictionary_interface.h"

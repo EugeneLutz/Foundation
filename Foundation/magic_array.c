@@ -140,13 +140,15 @@ void magicArrayDeinitialize(MAGIC_ARRAY* magicArray)
 		{
 			dataAllocatorRelease(magicArray->allocator);
 		}
+		
+		free(magicArray->elements);
 	}
 	else
 	{
 		_magicArrayComponent_deinitialize(&magicArray->data);
+		free(magicArray->elements);
 	}
 	
-	free(magicArray->elements);
 	debug_memset(magicArray, 0, sizeof(MAGIC_ARRAY));
 }
 
@@ -299,7 +301,7 @@ void* magicArrayInsertItem(MAGIC_ARRAY* magicArray, unsigned int itemIndex)
 	}
 }
 
-void magicArrayRemoveItemByIndex(MAGIC_ARRAY* magicArray, unsigned int itemIndex)
+void magicArrayRemoveItemByIndex(MAGIC_ARRAY* magicArray, unsigned long itemIndex)
 {
 	assert(magicArray);
 	assert(itemIndex < magicArray->length);
@@ -325,7 +327,7 @@ void magicArrayRemoveItemByIndex(MAGIC_ARRAY* magicArray, unsigned int itemIndex
 	}
 	
 	// Shift elements
-	for (unsigned int i = itemIndex + 1; i < magicArray->length; i++)
+	for (unsigned long i = itemIndex + 1; i < magicArray->length; i++)
 	{
 		magicArray->elements[i - 1] = magicArray->elements[i];
 	}

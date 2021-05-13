@@ -1,13 +1,13 @@
 //
-//  data_allocator_interface.h
+//  data_allocator_public.h
 //  Foundation
 //
 //  Created by Евгений Лютц on 01.01.21.
 //  Copyright © 2021 Eugene Lutz. All rights reserved.
 //
 
-#ifndef data_allocator_interface_h
-#define data_allocator_interface_h
+#ifndef data_allocator_public_h
+#define data_allocator_public_h
 
 #include "foundation.h"
 
@@ -19,4 +19,4 @@ void dataAllocatorRemoveItem(DATA_ALLOCATOR* allocator, DATA_BLOCK_ITEM* itemDat
 
 void dataAllocatorReset(DATA_ALLOCATOR* allocator);
 
-#endif /* data_allocator_interface_h */
+#endif /* data_allocator_public_h */
