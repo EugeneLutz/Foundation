@@ -13,9 +13,11 @@
 
 typedef struct BUFFER
 {
+	/// Determines whether @b data was created by it's buffer constructor or was it refenced from ohter place.
+	int referenced;
+	
 	unsigned long capacity;
 	unsigned long length;
-	unsigned long numReferences;
 	char* data;
 }
 BUFFER;

@@ -16,7 +16,7 @@ BUFFER_WRITER* bufferWriterCreate(BUFFER* buffer, unsigned int sizeIncrement)
 	writer->buffer = buffer;
 	writer->editorPosition = 0;
 	writer->capacityIncrement = sizeIncrement;
-	writer->buffer->numReferences++;
+//	writer->buffer->numReferences++;
 	return writer;
 }
 
@@ -24,7 +24,7 @@ void bufferWriterRelease(BUFFER_WRITER* bufferWriter)
 {
 	assert(bufferWriter);
 	
-	bufferWriter->buffer->numReferences--;
+//	bufferWriter->buffer->numReferences--;
 	debug_memset(bufferWriter, 0, sizeof(BUFFER_WRITER));
 	free(bufferWriter);
 }

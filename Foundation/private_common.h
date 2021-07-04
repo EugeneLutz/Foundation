@@ -9,6 +9,10 @@
 #ifndef private_common_h
 #define private_common_h
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // MARK: - System headers
 
 #include <stdio.h>
@@ -24,6 +28,11 @@
 #define debug_memset(data, value, dataSize) memset(data, value, dataSize)
 #else
 #define debug_memset(data, value, dataSize) /* do nothing */
+//#define debug_memset(data, value, dataSize) memset(data, value, dataSize)
+#endif
+
+#ifdef __cplusplus
+} // extern "C"
 #endif
 
 #endif /* private_common_h */

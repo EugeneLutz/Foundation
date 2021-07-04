@@ -35,7 +35,7 @@ INPUT_RESPONDER* inputResponderCreate(INPUT_RESPONDER_DELEGATE_FUNC delegate, vo
 	inputResponder->inputHistory = commands[1];
 	
 	
-	SF_ARRAY_INIT(TRACKING_KEYBOARD_BUTTON*, inputResponder->trackingKeyboardButtons, 128);
+	magicArrayInitialize(&inputResponder->trackingKeyboardButtons, sizeof(TRACKING_KEYBOARD_BUTTON), 64);
 	
 	inputResponder->mouseX = 0.0f;
 	inputResponder->mouseY = 0.0f;
@@ -52,12 +52,12 @@ void inputResponderRelease(INPUT_RESPONDER* inputResponder)
 {
 	assert(inputResponder);
 	
-	for (unsigned int i = 0; i < SF_ARRAY_LEN(inputResponder->trackingKeyboardButtons); i++)
+	for (unsigned long i = 0; i < inputResponder->trackingKeyboardButtons.length; i++)
 	{
-		TRACKING_KEYBOARD_BUTTON* currentButton = inputResponder->trackingKeyboardButtons[i];
-		trackingKeyboardButtonRelease(currentButton);
+		TRACKING_KEYBOARD_BUTTON* currentButton = magicArrayGetItem(&inputResponder->trackingKeyboardButtons, i);
+		trackingKeyboardButtonDeinitialize(currentButton);
 	}
-	SF_ARRAY_RELEASE(inputResponder->trackingKeyboardButtons);
+	magicArrayDeinitialize(&inputResponder->trackingKeyboardButtons);
 	
 	SF_ARRAY_RELEASE(inputResponder->inputHistory->touchCommands);
 	SF_ARRAY_RELEASE(inputResponder->inputHistory->mouseCommands);
@@ -89,9 +89,9 @@ void inputResponderResetInput(INPUT_RESPONDER* inputResponder)
 	
 	// Reset all accumulated data
 	
-	for (unsigned int i = 0; i < SF_ARRAY_LEN(inputResponder->trackingKeyboardButtons); i++)
+	for (unsigned long i = 0; i < inputResponder->trackingKeyboardButtons.length; i++)
 	{
-		TRACKING_KEYBOARD_BUTTON* currentButton = inputResponder->trackingKeyboardButtons[i];
+		TRACKING_KEYBOARD_BUTTON* currentButton = magicArrayGetItem(&inputResponder->trackingKeyboardButtons, i);
 		trackingKeyboardButtonReset(currentButton);
 	}
 	
@@ -113,9 +113,9 @@ void inputResponderResetInput(INPUT_RESPONDER* inputResponder)
 			if (command->inputType == INPUT_COMMAND_TYPE_KEYBOARD)
 			{
 				INPUT_KEYBOARD* keyboardInput = (INPUT_KEYBOARD*)(command->inputData);
-				for (unsigned int i = 0; i < SF_ARRAY_LEN(inputResponder->trackingKeyboardButtons); i++)
+				for (unsigned long i = 0; i < inputResponder->trackingKeyboardButtons.length; i++)
 				{
-					TRACKING_KEYBOARD_BUTTON* currentButton = inputResponder->trackingKeyboardButtons[i];
+					TRACKING_KEYBOARD_BUTTON* currentButton = magicArrayGetItem(&inputResponder->trackingKeyboardButtons, i);
 					if (currentButton->type == keyboardInput->buttonType &&
 						currentButton->keyCode == keyboardInput->buttonKeyCode)
 					{
@@ -142,7 +142,7 @@ void inputResponderResetInput(INPUT_RESPONDER* inputResponder)
 		}
 	}
 
-
+	// Swap input history
 	inputResponder->stashedCommands = inputResponder->inputHistory;
 	inputResponder->inputHistory = data;
 	
@@ -428,19 +428,17 @@ TRACKING_KEYBOARD_BUTTON* inputResponderTrackKeyboardButton(INPUT_RESPONDER* inp
 {
 	assert(inputResponder);
 	
-	for (unsigned int i = 0; i < SF_ARRAY_LEN(inputResponder->trackingKeyboardButtons); i++)
+	for (unsigned long i = 0; i < inputResponder->trackingKeyboardButtons.length; i++)
 	{
-		TRACKING_KEYBOARD_BUTTON* currentButton = inputResponder->trackingKeyboardButtons[i];
+		TRACKING_KEYBOARD_BUTTON* currentButton = magicArrayGetItem(&inputResponder->trackingKeyboardButtons, i);
 		if (currentButton->type == type && currentButton->keyCode == keyCode)
 		{
 			return currentButton;
 		}
 	}
 	
-	TRACKING_KEYBOARD_BUTTON* button = trackingKeyboardButtonCreate(type, keyCode);
-	SF_ARRAY_PREPARE_NEXT(TRACKING_KEYBOARD_BUTTON*, inputResponder->trackingKeyboardButtons, 128);
-	SF_ARRAY_STASH_NEXT(inputResponder->trackingKeyboardButtons);
-	SF_ARRAY_LAST(inputResponder->trackingKeyboardButtons) = button;
+	TRACKING_KEYBOARD_BUTTON* button = magicArrayAddItem(&inputResponder->trackingKeyboardButtons);
+	trackingKeyboardButtonInitialize(button, inputResponder, type, keyCode);
 	
 	return button;
 }

@@ -31,17 +31,20 @@ typedef struct INPUT_RESPONDER
 	INPUT_DATA* stashedCommands;	// Accumulating commands
 	INPUT_DATA* inputHistory;		// Previously accumulated commands
 	
-	//
-	// Tracking user input
-	//
+	// MARK: - Tracking user input
 	
 	//SF_ARRAY_DEF(INPUT_COMMAND, inputHistory);
 	
-	// 1. Keyboard tracking
+	// MARK: 1. Keyboard tracking
 	
-	SF_ARRAY_DEF(TRACKING_KEYBOARD_BUTTON*, trackingKeyboardButtons);
+	/**
+	 @abstract 
+	 @discussion Array of @b TRACKING_KEYBOARD_BUTTON elements.
+	*/
+	MAGIC_ARRAY trackingKeyboardButtons;
+	//SF_ARRAY_DEF(TRACKING_KEYBOARD_BUTTON*, trackingKeyboardButtons);
 	
-	// 2. Mouse tracking
+	// MARK: 2. Mouse tracking
 	
 	float mouseX;
 	float mouseY;
@@ -52,9 +55,11 @@ typedef struct INPUT_RESPONDER
 	
 	// SF_ARRAY_DEF(TRACKING_MOUSE_BUTTON, trackingMouseButtons);
 	
-	// 3. Touch tracking
+	// MARK: 3. Touch tracking
 	
 	//SF_ARRAY_DEF(INPUT_TOUCH, touchHistory);
+	
+	// TODO: Add gamepad support
 }
 INPUT_RESPONDER;
 

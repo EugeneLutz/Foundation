@@ -15,7 +15,7 @@ BUFFER_READER* bufferReaderCreate(BUFFER* buffer)
 	BUFFER_READER* reader = malloc(sizeof(BUFFER_READER));
 	reader->buffer = buffer;
 	reader->editorPosition = 0;
-	reader->buffer->numReferences++;
+//	reader->buffer->numReferences++;
 	return reader;
 }
 
@@ -23,7 +23,7 @@ void bufferReaderRelease(BUFFER_READER* bufferReader)
 {
 	assert(bufferReader);
 	
-	bufferReader->buffer->numReferences--;
+//	bufferReader->buffer->numReferences--;
 	debug_memset(bufferReader, 0, sizeof(BUFFER_READER));
 	free(bufferReader);
 }
@@ -47,12 +47,12 @@ char* bufferReaderRequestDataToRead(BUFFER_READER* reader, unsigned long length,
 		return NULL;
 	}
 	
-	char* data = &(reader->buffer->data[reader->editorPosition]);
+	char* data = reader->buffer->data + reader->editorPosition;
 	reader->editorPosition += length;
 	return data;
 }
 
-static void _bufferReader_readRawData(BUFFER_READER* reader, char* data, unsigned long length, EXECUTE_RESULT* executeResult)
+static inline void _bufferReader_readRawData(BUFFER_READER* reader, char* data, unsigned long length, EXECUTE_RESULT* executeResult)
 {
 	assert(reader);
 	assert(data);

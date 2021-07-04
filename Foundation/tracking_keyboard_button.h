@@ -20,6 +20,9 @@ KEYBOARD_BUTTON_TRACK_INFO;
 
 typedef struct TRACKING_KEYBOARD_BUTTON
 {
+	/// Owner of this object (weak reference)
+	INPUT_RESPONDER* inputResponder;
+	
 	KEY_BUTTON_TYPE type;
 	unsigned int keyCode;
 	KEY_ACTION currentAction;

@@ -12,10 +12,10 @@
 #include "foundation.h"
 
 MAGIC_ARRAY* magicArrayCreateWithAllocator(DATA_ALLOCATOR* allocator, unsigned int capacityIncrement);
-MAGIC_ARRAY* magicArrayCreate(MAGIC_ARRAY_ITEM_DISTRIBUTION distribution, unsigned int itemSize, unsigned int sizeIncrement);
+MAGIC_ARRAY* magicArrayCreate(unsigned int itemSize, unsigned int sizeIncrement);
 
 void magicArrayInitializeWithAllocator(MAGIC_ARRAY* magicArray, DATA_ALLOCATOR* allocator, unsigned int capacityIncrement);
-void magicArrayInitialize(MAGIC_ARRAY* magicArray, MAGIC_ARRAY_ITEM_DISTRIBUTION distribution, unsigned int itemSize, unsigned int capacityIncrement);
+void magicArrayInitialize(MAGIC_ARRAY* magicArray, unsigned int itemSize, unsigned int capacityIncrement);
 
 void magicArrayDeinitialize(MAGIC_ARRAY* magicArray);
 void magicArrayRelease(MAGIC_ARRAY* magicArray);
@@ -29,6 +29,5 @@ void magicArrayRemoveItemByIndex(MAGIC_ARRAY* magicArray, unsigned long itemInde
 int magicArrayRemoveItem(MAGIC_ARRAY* magicArray, void* item);
 void* magicArrayGetItem(MAGIC_ARRAY* magicArray, unsigned long itemIndex);
 unsigned int magicArrayGetItemIndex(MAGIC_ARRAY* array, void* item);
-void* magicArrayGetData(MAGIC_ARRAY* magicArray);
 
 #endif /* magic_array_public_h */

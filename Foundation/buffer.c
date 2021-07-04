@@ -13,9 +13,9 @@
 void bufferInitialize(BUFFER* buffer, unsigned long capacity)
 {
 	assert(buffer);
+	buffer->referenced = 0;
 	buffer->capacity = capacity;
 	buffer->length = 0;
-	buffer->numReferences = 0;
 	buffer->data = malloc(sizeof(char) * capacity);
 	debug_memset(buffer->data, 0, sizeof(char) * capacity);
 }
@@ -23,16 +23,19 @@ void bufferInitialize(BUFFER* buffer, unsigned long capacity)
 void bufferDeinitialize(BUFFER* buffer)
 {
 	assert(buffer);
-	assert(buffer->numReferences == 0);
 	assert(buffer->data);
 	
-	free(buffer->data);
-	debug_memset(buffer, 0, sizeof(BUFFER));
+	if (!buffer->referenced)
+	{
+		free(buffer->data);
+		debug_memset(buffer, 0, sizeof(BUFFER));
+	}
 }
 
 void bufferRequestSize(BUFFER* buffer, unsigned long length)
 {
 	assert(buffer);
+	assert(!buffer->referenced);
 	
 	if (buffer->capacity < length)
 	{
@@ -52,13 +55,24 @@ BUFFER* bufferCreate(unsigned long length)
 	return buffer;
 }
 
+BUFFER* bufferCreateReferenced(char* data, unsigned long length)
+{
+	BUFFER* buffer = malloc(sizeof(BUFFER));
+	buffer->referenced = 1;
+	buffer->capacity = length;
+	buffer->length = length;
+	buffer->data = data;
+	
+	return buffer;
+}
+
 BUFFER* bufferCreateFromContentsOfFile(SYSTEM* system, const char* path, EXECUTE_RESULT* executeResult)
 {
 	assert(system);
 	assert(path);
 	
 	// TODO: test this code
-	assert(0);
+//	assert(0);
 	
 	FILE_READER* reader = systemOpenFileReader(system, path, FILE_MODE_BINARY, executeResult);
 	if (reader == NULL || executeResultIsFailed(executeResult))

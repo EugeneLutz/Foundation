@@ -9,6 +9,39 @@
 #ifndef magic_foundation_h
 #define magic_foundation_h
 
+#ifdef __cplusplus
+#include <vector>
+#include <string>
+#endif
+
+// MARK: - On apple platforms
+#if defined(__APPLE__) && __APPLE__
+#define IS_APPLE 1
+#define IS_MACOS TARGET_OS_OSX
+#define IS_IOS TARGET_OS_IOS
+#define ON_APPLE(code) code
+// MARK: - On non-apple platforms
+#else
+#define IS_APPLE 0
+#define IS_MACOS 0
+#define IS_IOS 0
+#define ON_APPLE(code) /* nothing */
+#endif
+
+
+// MARK: - On Objective-C compiler
+#if defined(__OBJC__)
+#define IS_OBJC 1
+#define ON_OBJC(code) code
+#define OBJC_NULLABLE _Nullable
+#define OBJC_NONNULL _Nonnull
+// MARK: - On non-Objective-C compiler
+#else
+#define IS_OBJC 0
+#define ON_OBJC(code) /* nothing */
+#define OBJC_NONNULL /* nothing */
+#endif
+
 // HeaderDoc Reference by Justin Loew:
 // http://www.cocoanutsdev.com/resources/headerdoc-reference-by-justin-loew
 
@@ -18,7 +51,6 @@ extern "C" {
 
 // MARK: - Enumerations
 
-#include "magic_array_item_distribution.h"
 #include "magic_dictionary_element_type.h"
 
 #include "input_types.h"
@@ -78,6 +110,10 @@ typedef struct SYSTEM SYSTEM;
 #include "buffer_reader.h"
 #include "buffer_writer.h"
 
+#ifdef __cplusplus
+} // extern "C"
+#endif
+
 #include "vector2f.h"
 #include "vector3f.h"
 #include "vector4f.h"
@@ -88,9 +124,14 @@ typedef struct SYSTEM SYSTEM;
 #include "segment.h"
 #include "frustum.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "data_block_item.h"
 #include "magic_string.h"
 #include "magic_array.h"
+#include "raw_array.h"
 #include "magic_dictionary.h"
 
 // MARK: - Public interface
@@ -114,16 +155,17 @@ typedef struct SYSTEM SYSTEM;
 #include "data_allocator_public.h"
 #include "magic_string_interface.h"
 #include "magic_array_public.h"
+#include "raw_array_public.h"
 #include "magic_dictionary_interface.h"
 #include "execute_result_interface.h"
 
 #include "input_keyboard_interface.h"
-#include "tracking_keyboard_button_interface.h"
+#include "tracking_keyboard_button_public.h"
 #include "input_mouse_interface.h"
 #include "input_touch_interface.h"
 #include "input_command_interface.h"
 #include "input_responder_delegate.h"
-#include "input_responder_interface.h"
+#include "input_responder_public.h"
 
 #include "file_reader_interface.h"
 #include "semaphore_interface.h"

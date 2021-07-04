@@ -15,6 +15,7 @@ typedef struct SEGMENT
 {
 	vector3f start;
 	vector3f end;
+	/// Calculated property
 	float length;
 }
 SEGMENT;

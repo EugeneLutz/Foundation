@@ -1,13 +1,13 @@
 //
-//  input_responder_interface.h
+//  input_responder_public.h
 //  Foundation
 //
 //  Created by Евгений Лютц on 20.01.2020.
 //  Copyright © 2020 Eugene Lutz. All rights reserved.
 //
 
-#ifndef input_responder_interface_h
-#define input_responder_interface_h
+#ifndef input_responder_public_h
+#define input_responder_public_h
 
 #include "foundation.h"
 
@@ -43,6 +43,10 @@ void inputResponderRelease(INPUT_RESPONDER* inputResponder);
 
 // MARK: Stashing input data
 
+/**
+ @abstract Resets previously accumulated commands and swaps to new collected ones.
+ @discussion TODO: I need to explain this.
+ */
 void inputResponderResetInput(INPUT_RESPONDER* inputResponder);
 unsigned int inputResponderGetNumAccumulatedCommands(INPUT_RESPONDER* inputResponder);
 INPUT_COMMAND* inputResponderGetAccumulatedCommand(INPUT_RESPONDER* inputResponder, unsigned int commandIndex);
@@ -83,4 +87,4 @@ float inputResponderGetMouseMoveY(INPUT_RESPONDER* inputResponder);
 float inputResponderGetMouseScrollX(INPUT_RESPONDER* inputResponder);
 float inputResponderGetMouseScrollY(INPUT_RESPONDER* inputResponder);
 
-#endif /* input_responder_interface_h */
+#endif /* input_responder_public_h */

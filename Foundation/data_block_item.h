@@ -13,8 +13,8 @@
 
 typedef struct DATA_BLOCK_ITEM
 {
-	unsigned int dataBlockIndex;
-	unsigned int itemIndex;
+	unsigned long dataBlockIndex;
+	unsigned long itemIndex;
 	void* data;
 }
 DATA_BLOCK_ITEM;

@@ -421,26 +421,29 @@ void stringAppedData(STRING* string, const char* data)
 
 static void _string_shiftData(STRING* string, unsigned long startIndex, long shiftValue)
 {
-	if (shiftValue == 0) {
+	assert((long)startIndex + shiftValue >= 0);
+	
+	if (shiftValue == 0)
+	{
 		return;
 	}
 	
-	size_t dataLength = string->length + shiftValue + 1;
-	if (dataLength > string->dataLength)
+	// Enlarge string length if needed
+	const unsigned long requiredDataLength = string->length + shiftValue + 1;
+	if (requiredDataLength > string->dataLength)
 	{
-		char* data = realloc(string->data, dataLength);
-		assert(data);
-		string->data = data;
-		string->dataLength = dataLength;
+		string->data = realloc(string->data, requiredDataLength);
+		assert(string->data);
+		string->dataLength = requiredDataLength;
 	}
+	string->length = requiredDataLength - 1;
 	
-	string->length = dataLength - 1;
 	if (shiftValue > 0)
 	{
-		long endIndex = startIndex - shiftValue;
-		for (long i = string->length; i >= endIndex; i--)
+		const long endIndex = startIndex - shiftValue;
+		for (long i = string->length; i > endIndex; i--)
 		{
-			string->data[i + shiftValue] = string->data[i];
+			string->data[i] = string->data[i - shiftValue];
 		}
 	}
 	else

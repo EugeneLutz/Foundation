@@ -13,9 +13,14 @@
 
 typedef struct STRING
 {
-	unsigned long dataLength;		// how many bytes allocated counting terminal null
-	unsigned long length;			// how many bytes is used without counting terminal null
-	unsigned long numCharacters;	// how many printable characters has data ≤ length
+	/// How many bytes allocated counting terminal null
+	unsigned long dataLength;
+	
+	/// How many bytes is used without counting terminal null
+	unsigned long length;
+	
+	/// How many printable characters has data ≤ length
+	unsigned long numCharacters;
 	
 	/*!
 	 UTF-8 - encoded representation of string.

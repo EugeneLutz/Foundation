@@ -15,9 +15,9 @@
 
 // Checks for tab, space, new line
 #define is_empty_character(character) (\
-character == 0x09 ||	\
-character == 0x20 ||	\
-character == 0xA		\
+(character) == 0x09 ||	\
+(character) == 0x20 ||	\
+(character) == 0xA		\
 )
 
 // Checks for JSON escape character
@@ -41,7 +41,7 @@ character == 0xA		\
 )
 
 const char* _magicDictionary_escapedJsonSymbols[] = { "\\\\", "\\\"", "\\n", "\\r", "\\t", "\\b", "\\f" };
-const char* _magicDictionary_jsonSymbolsToEscape[] = { "\\", "\"", "\n", "\r", "\t", "\b", "\f" };
+const char* _magicDictionary_jsonSymbolsToEscape[] = {  "\\",  "\"",   "\n",  "\r",  "\t",  "\b",  "\f" };
 const size_t _magicDictionary_numJsonEscapeSymbols = sizeof(_magicDictionary_jsonSymbolsToEscape) / sizeof(char*);
 
 static void _magicDictionary_unexpectedSymbol(EXECUTE_RESULT* executeResult, unsigned int currentCharacterNumber)
@@ -234,7 +234,7 @@ void magicDictionaryReadJsonUTF8Data(MAGIC_DICTIONARY* dictionary, const char* j
 	executeResultSetSucceeded(executeResult);
 	
 	MAGIC_ARRAY parserStack;
-	magicArrayInitialize(&parserStack, MAGIC_ARRAY_ITEM_DISTRIBUTION_DONT_CARE, sizeof(PARSER_DATA), 4);
+	magicArrayInitialize(&parserStack, sizeof(PARSER_DATA), 4);
 	PARSER_DATA* parseData = magicArrayAddItem(&parserStack);
 	parseData->state = PARSER_STATE_ROOT;
 	parseData->root.foundElement = 0;
@@ -323,7 +323,7 @@ void magicDictionaryReadJsonUTF8Data(MAGIC_DICTIONARY* dictionary, const char* j
 					
 					// dictionary->dictionaryValue not parseData->dictionary.dictionary->arrayValues !!!
 					MAGIC_ARRAY* value = magicArrayAddItem(&dictionary->arrayValues);
-					magicArrayInitialize(value, MAGIC_ARRAY_ITEM_DISTRIBUTION_DONT_CARE, sizeof(MAGIC_DICTIONARY_ELEMENT), 2);
+					magicArrayInitialize(value, sizeof(MAGIC_DICTIONARY_ELEMENT), 2);
 					pair->value.type = MAGIC_DICTIONARY_ELEMENT_TYPE_ARRAY;
 					pair->value.arrayValue = value;
 					
@@ -492,7 +492,7 @@ void magicDictionaryReadJsonUTF8Data(MAGIC_DICTIONARY* dictionary, const char* j
 				
 				// dictionary->dictionaryValue not parseData->dictionary.dictionary->arrayValues !!!
 				MAGIC_ARRAY* value = magicArrayAddItem(&dictionary->arrayValues);
-				magicArrayInitialize(value, MAGIC_ARRAY_ITEM_DISTRIBUTION_DONT_CARE, sizeof(MAGIC_DICTIONARY_ELEMENT), 2);
+				magicArrayInitialize(value, sizeof(MAGIC_DICTIONARY_ELEMENT), 2);
 				pair->value.type = MAGIC_DICTIONARY_ELEMENT_TYPE_ARRAY;
 				pair->value.arrayValue = value;
 				
@@ -627,7 +627,7 @@ void magicDictionaryReadJsonUTF8Data(MAGIC_DICTIONARY* dictionary, const char* j
 				
 				// dictionary->dictionaryValue not parseData->dictionary.dictionary->arrayValues !!!
 				MAGIC_ARRAY* value = magicArrayAddItem(&dictionary->arrayValues);
-				magicArrayInitialize(value, MAGIC_ARRAY_ITEM_DISTRIBUTION_DONT_CARE, sizeof(MAGIC_DICTIONARY_ELEMENT), 2);
+				magicArrayInitialize(value, sizeof(MAGIC_DICTIONARY_ELEMENT), 2);
 				
 				MAGIC_DICTIONARY_ELEMENT* element = magicArrayAddItem(parseData->array.array);
 				element->type = MAGIC_DICTIONARY_ELEMENT_TYPE_ARRAY;

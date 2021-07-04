@@ -8,14 +8,36 @@
 
 #include "private_interface.h"
 
+void magicDictionaryInitializeWithContentsOfJsonFileInMainBundle(MAGIC_DICTIONARY* dictionary, SYSTEM* system, const char* name, const char* extension, EXECUTE_RESULT* executeResult)
+{
+	STRING* filePath = stringCreateWithData(NULL);
+	systemGetPathForResourceWithName(system, filePath, name, extension, executeResult);
+	assert(executeResultIsSucceeded(executeResult));
+	
+	FILE_READER* reader = systemOpenFileReader(system, filePath->data, FILE_MODE_TEXT, executeResult);
+	assert(executeResultIsSucceeded(executeResult));
+	stringRelease(filePath);
+	
+	STRING* bufferData = stringCreateWithData(NULL);
+	fileReaderReadAllContentsToString(bufferData, reader, executeResult);
+	assert(executeResultIsSucceeded(executeResult));
+	fileReaderClose(reader, executeResult);
+	assert(executeResultIsSucceeded(executeResult));
+	
+	magicDictionaryInitialize(dictionary);
+	magicDictionaryReadJsonUTF8Data(dictionary, bufferData->data, u8"root", 0, executeResult);
+	assert(executeResultIsSucceeded(executeResult));
+	stringRelease(bufferData);
+}
+
 void magicDictionaryInitialize(MAGIC_DICTIONARY* dictionary)
 {
 	assert(dictionary);
 	
-	magicArrayInitialize(&dictionary->elements, MAGIC_ARRAY_ITEM_DISTRIBUTION_DONT_CARE, sizeof(MAGIC_DICTIONARY_KEY_VALUE_PAIR), 4);
-	magicArrayInitialize(&dictionary->stringValues, MAGIC_ARRAY_ITEM_DISTRIBUTION_DONT_CARE, sizeof(STRING), 4);
-	magicArrayInitialize(&dictionary->arrayValues, MAGIC_ARRAY_ITEM_DISTRIBUTION_DONT_CARE, sizeof(MAGIC_ARRAY), 4);
-	magicArrayInitialize(&dictionary->dictionaryValues, MAGIC_ARRAY_ITEM_DISTRIBUTION_DONT_CARE, sizeof(MAGIC_DICTIONARY), 4);
+	magicArrayInitialize(&dictionary->elements, sizeof(MAGIC_DICTIONARY_KEY_VALUE_PAIR), 4);
+	magicArrayInitialize(&dictionary->stringValues, sizeof(STRING), 4);
+	magicArrayInitialize(&dictionary->arrayValues, sizeof(MAGIC_ARRAY), 4);
+	magicArrayInitialize(&dictionary->dictionaryValues, sizeof(MAGIC_DICTIONARY), 4);
 }
 
 void magicDictionaryDeinitialize(MAGIC_DICTIONARY* dictionary)

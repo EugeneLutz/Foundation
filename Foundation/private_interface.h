@@ -9,12 +9,20 @@
 #ifndef foundation_private_interface_h
 #define foundation_private_interface_h
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+// MARK: - Dependencies
+
 #include "foundation.h"
 #include "private_common.h"
 
 // MARK: - Type declarations
 
 typedef struct DATA_BLOCK DATA_BLOCK;
+
+// MARK: - Private function declarations
 
 // MARK: - Private structures
 
@@ -39,6 +47,10 @@ typedef struct DATA_BLOCK DATA_BLOCK;
 
 #include "buffer_private_interface.h"
 #include "data_allocator_private.h"
-#include "tracking_keyboard_button_private_interface.h"
+#include "tracking_keyboard_button_private.h"
+
+#ifdef __cplusplus
+} // extern "C"
+#endif
 
 #endif /* foundation_private_interface_h */

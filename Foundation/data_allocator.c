@@ -42,7 +42,7 @@ void dataAllocatorInitialize(DATA_ALLOCATOR* allocator, unsigned int itemSize, u
 	container->engagedItems = malloc(sizeof(char) * allocator->numDataBlocks);
 	memset(container->engagedItems, 0, sizeof(char) * allocator->numDataBlocks);
 	container->dataBlocks = malloc(sizeof(DATA_BLOCK) * allocator->numDataBlocks);
-	for (unsigned int i = 0; i < allocator->numDataBlocks; i++)
+	for (unsigned long i = 0; i < allocator->numDataBlocks; i++)
 	{
 		DATA_BLOCK* dataBlock = container->dataBlocks + i;
 		_dataBlock_initialize(dataBlock, allocator);
@@ -53,7 +53,7 @@ void dataAllocatorDeinitialize(DATA_ALLOCATOR* allocator)
 {
 	assert(allocator);
 	
-	for (unsigned int i = 0; i < allocator->numDataBlocks; i++)
+	for (unsigned long i = 0; i < allocator->numDataBlocks; i++)
 	{
 		DATA_BLOCK* dataBlock = &((DATA_BLOCK*)allocator->dataBlocksContainer.data)[i];
 		_dataBlock_deinitialize(dataBlock);
@@ -121,7 +121,7 @@ void dataAllocatorAddItem(DATA_ALLOCATOR* allocator, DATA_BLOCK_ITEM* outItemDat
 	}
 }
 
-void dataAllocatorRemoveItem(DATA_ALLOCATOR* allocator, DATA_BLOCK_ITEM* itemData)
+void dataAllocatorRemoveItem(DATA_ALLOCATOR* allocator, const DATA_BLOCK_ITEM* itemData)
 {
 	assert(allocator);
 	assert(itemData);
@@ -129,7 +129,8 @@ void dataAllocatorRemoveItem(DATA_ALLOCATOR* allocator, DATA_BLOCK_ITEM* itemDat
 	assert(itemData->itemIndex < allocator->dataBlockCapacity);
 	
 	DATA_BLOCK* container = &allocator->dataBlocksContainer;
-	DATA_BLOCK* dataBlock = &container->dataBlocks[itemData->dataBlockIndex];
+	DATA_BLOCK* dataBlock = container->dataBlocks + itemData->dataBlockIndex;
+	assert(dataBlock);
 	assert(dataBlock->engagedItems[itemData->itemIndex]);
 	
 	dataBlock->engagedItems[itemData->itemIndex] = 0;
@@ -151,7 +152,7 @@ void dataAllocatorReset(DATA_ALLOCATOR* allocator)
 	DATA_BLOCK* container = &allocator->dataBlocksContainer;
 	for (unsigned long i = 0; i < allocator->numDataBlocks; i++)
 	{
-		DATA_BLOCK* dataBlock = &(container->dataBlocks[i]);
+		DATA_BLOCK* dataBlock = container->dataBlocks + i;
 		dataBlock->firstAvailableItem = 0;
 		memset(dataBlock->engagedItems, 0, sizeof(char) * allocator->dataBlockCapacity);
 		debug_memset(dataBlock->data, 0, allocator->itemSize * allocator->dataBlockCapacity);

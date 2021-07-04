@@ -11,6 +11,10 @@
 
 #include "foundation.h"
 
-typedef void (* INPUT_RESPONDER_DELEGATE_FUNC)(INPUT_COMMAND* command, void* userInfo);
+/**
+ @abstract Callback for responding to input commands.
+ @return @b 0 if command should be accumulated (see @e inputResponderResetInput for more information), otherwise @b 1. TODO: implement this in input_responder.c
+ */
+typedef int (* INPUT_RESPONDER_DELEGATE_FUNC)(INPUT_COMMAND* command, void* userInfo);
 
 #endif /* input_responder_delegate_h */

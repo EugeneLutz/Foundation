@@ -10,24 +10,21 @@
 
 // MARK: - Private interface
 
-TRACKING_KEYBOARD_BUTTON* trackingKeyboardButtonCreate(KEY_BUTTON_TYPE keyButtonType, unsigned int buttonKeyCode)
+void trackingKeyboardButtonInitialize(TRACKING_KEYBOARD_BUTTON* button, INPUT_RESPONDER* inputResponder, KEY_BUTTON_TYPE keyButtonType, unsigned int buttonKeyCode)
 {
-	TRACKING_KEYBOARD_BUTTON* button = malloc(sizeof(TRACKING_KEYBOARD_BUTTON));
+	assert(button);
+	button->inputResponder = inputResponder;
 	button->type = keyButtonType;
 	button->keyCode = buttonKeyCode;
 	button->currentAction = KEY_ACTION_UP;
 	SF_ARRAY_INIT(KEYBOARD_BUTTON_TRACK_INFO, button->trackInfo, 16);
-	
-	return button;
 }
 
-void trackingKeyboardButtonRelease(TRACKING_KEYBOARD_BUTTON* button)
+void trackingKeyboardButtonDeinitialize(TRACKING_KEYBOARD_BUTTON* button)
 {
 	assert(button);
 	SF_ARRAY_RELEASE(button->trackInfo);
-	free(button);
 }
-
 
 void trackingKeyboardButtonAddAction(TRACKING_KEYBOARD_BUTTON* button, KEY_ACTION action, double actionTime)
 {
@@ -48,6 +45,14 @@ void trackingKeyboardButtonReset(TRACKING_KEYBOARD_BUTTON* button)
 }
 
 // MARK: - Public interface
+
+void trackingKeyboardButtonRelease(TRACKING_KEYBOARD_BUTTON* button)
+{
+	assert(button);
+	
+	trackingKeyboardButtonDeinitialize(button);
+	magicArrayRemoveItem(&button->inputResponder->trackingKeyboardButtons, button);
+}
 
 KEY_BUTTON_TYPE trackingKeyboardButtonGetButtonType(TRACKING_KEYBOARD_BUTTON* button)
 {

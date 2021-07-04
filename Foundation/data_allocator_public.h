@@ -15,7 +15,7 @@ DATA_ALLOCATOR* dataAllocatorCreate(unsigned int itemSize, unsigned int dataBloc
 void dataAllocatorRelease(DATA_ALLOCATOR* allocator);
 
 void dataAllocatorAddItem(DATA_ALLOCATOR* allocator, DATA_BLOCK_ITEM* outItemData);
-void dataAllocatorRemoveItem(DATA_ALLOCATOR* allocator, DATA_BLOCK_ITEM* itemData);
+void dataAllocatorRemoveItem(DATA_ALLOCATOR* allocator, const DATA_BLOCK_ITEM* itemData);
 
 void dataAllocatorReset(DATA_ALLOCATOR* allocator);
 

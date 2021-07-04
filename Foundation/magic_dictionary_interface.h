@@ -14,6 +14,7 @@
 typedef struct MAGIC_DICTIONARY_ELEMENT MAGIC_DICTIONARY_ELEMENT;
 //typedef struct MAGIC_DICTIONARY_KEY_VALUE_PAIR MAGIC_DICTIONARY_KEY_VALUE_PAIR;
 
+void magicDictionaryInitializeWithContentsOfJsonFileInMainBundle(MAGIC_DICTIONARY* dictionary, SYSTEM* system, const char* name, const char* extension, EXECUTE_RESULT* executeResult);
 void magicDictionaryInitialize(MAGIC_DICTIONARY* dictionary);
 void magicDictionaryDeinitialize(MAGIC_DICTIONARY* dictionary);
 
